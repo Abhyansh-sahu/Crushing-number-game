@@ -1,6 +1,6 @@
 import numpy as np
-grid=np.zeros((9,9), dtype=int)
-def number():
+grid=np.zeros((9,9), dtype=int) #9x9 matrix with all zeros
+def number():# Taking Number and checking it is valid Number(1-9) or not
     while True:
         try:
             num=int(input("Enter a number (1 to 9): "))
@@ -10,7 +10,7 @@ def number():
                 return num
         except:
             print("please enter integer from 1 to 9")
-def position():
+def position():# Taking position in ROW and COLUMN and Checking position is Valid or not according to Rules
     while True:
         try:   
             row=int(input("Enter row (0 to 8): "))
@@ -21,14 +21,14 @@ def position():
                 return (row,col)
         except:
             print("Please enter integer number")
-def grid_valid(grid,number,position):
+def grid_valid(grid,number,position):# Checking Position valid in 3x3 matrix
     row,col= position
     box_row_start,box_col_start = (row // 3) * 3, (col // 3) * 3
     box = grid[box_row_start:box_row_start+3, box_col_start:box_col_start+3]
     if number in grid[row] or number in grid[:,col] or number in box:
         return False
     return True
-def creating_grid ():
+def creating_grid ():# It will create Grid of 9*9 with 25 Known Number
     global grid
     count=0
     while count<25:
@@ -41,7 +41,7 @@ def creating_grid ():
             continue
         grid[random_row][random_column]=random_number
         count+=1
-def display_grid(grid):
+def display_grid(grid): # Dislpay Grid
     print("\nCurrent Grid:\n")
     for i in range(9):
         if i % 3 == 0 and i != 0:
