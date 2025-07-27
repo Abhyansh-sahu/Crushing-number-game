@@ -1,0 +1,73 @@
+import numpy as np
+grid=np.zeros((9,9), dtype=int)
+def number():
+    while True:
+        try:
+            num=int(input("Enter a number (1 to 9): "))
+            if num<1 or num>9:
+                print("Invalid Number Try again")
+            else:
+                return num
+        except:
+            print("please enter integer from 1 to 9")
+def position():
+    while True:
+        try:   
+            row=int(input("Enter row (0 to 8): "))
+            col=int(input("Enter column (0 to 8): "))
+            if row>8 or col>8 or row<0 or col<0:
+                print("Invalid Try Again")
+            else:
+                return (row,col)
+        except:
+            print("Please enter integer number")
+def grid_valid(grid,number,position):
+    row,col= position
+    box_row_start,box_col_start = (row // 3) * 3, (col // 3) * 3
+    box = grid[box_row_start:box_row_start+3, box_col_start:box_col_start+3]
+    if number in grid[row] or number in grid[:,col] or number in box:
+        return False
+    return True
+def creating_grid ():
+    global grid
+    count=0
+    while count<25:
+        random_number=np.random.randint(1,10)
+        random_row=np.random.randint(0,9)
+        random_column=np.random.randint(0,9)
+        box_row_start,box_col_start = (random_row // 3) * 3,(random_column // 3) * 3
+        box = grid[box_row_start:box_row_start+3, box_col_start:box_col_start+3]
+        if grid[random_row][random_column] != 0 or random_number in grid[random_row] or random_number in grid[:,random_column] or random_number in box:
+            continue
+        grid[random_row][random_column]=random_number
+        count+=1
+def display_grid(grid):
+    print("\nCurrent Grid:\n")
+    for i in range(9):
+        if i % 3 == 0 and i != 0:
+            print("-" * 21)
+        for j in range(9):
+            if j % 3 == 0 and j != 0:
+                print("|", end=" ")
+            if grid[i][j] == 0:
+                print(".", end=" ")
+            else:
+                print(int(grid[i][j]), end=" ")
+        print()
+print("\t\tWELCOME TO THE NUMBER CRUSHER GAME!\t\t")
+creating_grid ()
+while True:
+    display_grid(grid)
+    num=number()
+    pos=position()
+    if grid[pos[0]][pos[1]] != 0:
+        print("This position is already filled!")
+    elif grid_valid(grid,num,pos):
+        grid[pos[0]][pos[1]]=num
+        print("Number Inserted")
+    else:
+        print("You can't place that number here!")
+    choice=input("Enter 'Q' to quit or any other key to continue:").upper()
+    if 0 not in grid or choice=='Q':
+        print("Your final Grid",display_grid(grid))
+        break
